@@ -44,7 +44,8 @@ const Matches = () => {
 
   const fetchMatches = async () => {
     try {
-      const response = await axios.get('http://10.105.51.160:3000/getUsers', {
+      console.log("inside it");
+      const response = await axios.get('http://10.105.51.160:3000/matches', {
         headers: { Authorization: `Bearer ${token}` },
       });      
       if (response.data && response.data.matches) {
@@ -122,7 +123,7 @@ const Matches = () => {
   }, [matches]);
 
   return (
-    <ImageBackground source={bg} style={styles.bg}>
+    <ImageBackground style={styles.bg}>
       <View style={styles.containerMatches}>
         <TouchableOpacity>
           <Text style={styles.icon}>
@@ -147,11 +148,11 @@ const Matches = () => {
             horizontal={true}
             showsHorizontalScrollIndicator={false}
             renderItem={({ item }) => (
-              <View style={{ width: 280, margin: 10, marginTop: 148 }}>
+              <View style={{ width: 280, margin: 10, marginTop: 100 }}>
                 <TouchableOpacity>
                   <Image
                     source={{ uri: item.profile_image }}
-                    style={{ height: 340, borderRadius: 15 }}
+                    style={{ height: 340, borderRadius: 20 }}
                   />
                   <Text style={{
                     textAlign: 'center',
@@ -163,10 +164,13 @@ const Matches = () => {
                   </Text>
                   <TouchableOpacity
                     style={{
-                      backgroundColor: '#ff4081',
+                      backgroundColor: '#ed0992',
                       padding: 10,
+
                       borderRadius: 10,
+                      width:'100%',
                       marginTop: 10,
+                      alignSelf: 'center',
                     }}
                     onPress={() => requestPromNight(item.id)}
                   >

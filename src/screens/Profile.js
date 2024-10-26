@@ -23,7 +23,7 @@ const Profile = ({ navigation }) => {
     const invitePromPartner = async () => {
         try {
             const response = await axios.post(
-                'http://10.105.51.160:3000/invitePromPartner',
+                'https://lol-2eal.onrender.com/invitePromPartner',
                 { partnerName, partnerEmail },
                 { headers: { Authorization: `Bearer ${token}` } }
             );
@@ -97,7 +97,7 @@ const Profile = ({ navigation }) => {
                         transparent={true}
                         visible={modalVisible}
                         onRequestClose={() => setModalVisible(false)}
-                    >
+                    >   
                         <View style={styles.modalView}>
                             <Text style={styles.modalText}>Invite to Prom Night</Text>
                             
@@ -156,7 +156,8 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
         display: 'flex',
-        backgroundColor: "black"
+        backgroundColor: "black",
+        justifyContent:'center'
     },
     notificationButtonContainer: {
         position: 'absolute',
@@ -216,6 +217,8 @@ const styles = StyleSheet.create({
     modalView: {
         margin: 20,
         backgroundColor: 'white',
+        display:'flex',
+        marginTop:200,
         borderRadius: 20,
         padding: 35,
         alignItems: 'center',

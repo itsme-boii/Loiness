@@ -52,12 +52,29 @@ export default function App() {
                   {() => (
                     <Tab.Navigator tabBar={(props) => <MyTabBar {...props} />}>
                       <Tab.Screen name="Home" component={Card} options={{  headerStyle: {
-      backgroundColor: 'red', // Change this to your desired background color
+      backgroundColor: 'black', // Background color of header
+      borderBottomWidth: 1, // Width of the bottom border
+      borderBottomColor: 'white', // Change this to your desired background color
     },
     headerTintColor: '#fff', }}/>
-                      <Tab.Screen name="Matches" component={Matches} />
-                      <Tab.Screen name="Chats" component={Chats} />
-                      <Tab.Screen name="Profile" component={Profile} />
+                      <Tab.Screen name="Matches" component={Matches} options={{  headerStyle: {
+      backgroundColor: 'black', // Background color of header
+      borderBottomWidth: 1, // Width of the bottom border
+      borderBottomColor: 'white', // Change this to your desired background color
+    },
+    headerTintColor: '#fff', }}/>
+                      <Tab.Screen name="Chats" component={Chats} options={{  headerStyle: {
+      backgroundColor: 'black', // Background color of header
+      borderBottomWidth: 1, // Width of the bottom border
+      borderBottomColor: 'white', // Change this to your desired background color
+    },
+    headerTintColor: '#fff', }}/>
+                      <Tab.Screen name="Profile" component={Profile} options={{  headerStyle: {
+      backgroundColor: 'black', // Background color of header
+      borderBottomWidth: 1, // Width of the bottom border
+      borderBottomColor: 'white', // Change this to your desired background color
+    },
+    headerTintColor: '#fff', }}/>
                     </Tab.Navigator>
                   )}
                 </Stack.Screen>

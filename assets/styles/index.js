@@ -237,7 +237,8 @@ export default StyleSheet.create({
 		flex: 1,
 		resizeMode: "cover",
 		width: DIMENSION_WIDTH,
-		height: DIMENSION_HEIGHT
+		height: DIMENSION_HEIGHT,
+		backgroundColor:"black"
 	},
 	top: {
 		paddingTop: 50,
