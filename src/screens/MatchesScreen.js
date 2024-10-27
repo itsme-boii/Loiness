@@ -167,7 +167,8 @@ const Matches = () => {
                     style={{
                       textAlign: "center",
                       marginTop: 10,
-                      fontSize: 18,
+                      fontSize: 21,
+                      fontWeight: "bold",
                       color: "white",
                     }}
                   >
@@ -177,7 +178,6 @@ const Matches = () => {
                     style={{
                       backgroundColor: "#ed0992",
                       padding: 10,
-
                       borderRadius: 10,
                       width: "100%",
                       marginTop: 10,

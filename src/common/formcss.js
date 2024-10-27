@@ -24,13 +24,13 @@ module.exports = {
         fontWeight:700
     },
     input: {
-        backgroundColor: "#ffffff99",
+        backgroundColor: "rgba(255, 255, 255, 0.78)",
         borderRadius: 20,
         paddingHorizontal: 10,
         paddingVertical: 10,
     },
     link: {
-        color: '#734A31',
+        color: 'blue',
         fontSize: 18,
     },
     link2: {

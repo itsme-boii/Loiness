@@ -29,9 +29,6 @@ const Profile = ({}) => {
 
   const navigation = useNavigation();
   const { user, setUser, token, setToken } = useUserContext();
-
-  //   const [allUsers, setAllUsers] = useState([]);
-
   const userId = JSON.parse(user)?.id;
 
   const fetchPromRequests = useCallback(async () => {
@@ -53,42 +50,10 @@ const Profile = ({}) => {
     }
   }, [userId, token]);
 
-  //   const addNameToTheRequester = async () => {
-  //     // use the response.data.data to get the user which has the id of requester_id in the promrequests and display the name of the user in the promrequests by creating a property called requester_name in the promrequests array
-
-  //     for (let i = 0; i < promRequests.length; i++) {
-  //       for (let j = 0; j < allUsers.length; j++) {
-  //         if (promRequests[i].requester_id === allUsers[j].id) {
-  //           promRequests[i].requester_name = allUsers[j].name;
-  //         }
-  //       }
-  //     }
-  //   };
-
-  //   const getAllUsers = async () => {
-  //     try {
-  //       const response = await axios.get(
-  //         "https://lol-2eal.onrender.com/getUsers",
-  //         {
-  //           headers: { Authorization: `Bearer ${token}` },
-  //         }
-  //       );
-
-  //       console.log("the users ARE: ", response.data.data);
-
-  //       setAllUsers(response.data.data);
-  //     } catch (error) {
-  //       console.error("Error fetching users:", error);
-  //     }
-  //   };
-
   useEffect(() => {
     fetchPromRequests();
-    // getAllUsers();
-    // addNameToTheRequester();
     const interval = setInterval(() => {
       fetchPromRequests();
-      //   addNameToTheRequester();
     }, 30000);
     return () => clearInterval(interval);
   }, [fetchPromRequests]);
@@ -128,7 +93,7 @@ const Profile = ({}) => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       Alert.alert("Success", response.data.message);
-      fetchPromRequests(); // Refresh the list of requests
+      fetchPromRequests();
     } catch (error) {
       console.error("Error accepting request:", error.response.data.message);
       Alert.alert("Error", "Failed to accept request");
@@ -143,7 +108,7 @@ const Profile = ({}) => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       Alert.alert("Success", response.data.message);
-      fetchPromRequests(); // Refresh the list of requests
+      fetchPromRequests();
     } catch (error) {
       console.error("Error rejecting request:", error.response.data.message);
       Alert.alert("Error", "Failed to reject request");
@@ -170,7 +135,6 @@ const Profile = ({}) => {
         }}
       >
         <View style={styles.container}>
-          {/* Notification Icon */}
           <TouchableOpacity
             style={styles.notificationContainer}
             onPress={() => setShowNotifications(!showNotifications)}
@@ -182,7 +146,6 @@ const Profile = ({}) => {
             <NotificationBadge count={promRequests.length} />
           </TouchableOpacity>
 
-          {/* Notifications Modal */}
           <Modal
             animationType="slide"
             transparent={true}
@@ -256,11 +219,18 @@ const Profile = ({}) => {
                 </Text>
               </View>
               <View style={styles.detailRow}>
-                <Text style={styles.detailLabel}>Age</Text>
+                <Text style={styles.detailLabel}>Roll_No</Text>
                 <Text style={styles.detailValue}>
-                  {JSON.parse(user)?.age || "N/A"}
+                  {JSON.parse(user)?.rollNo || "N/A"}
                 </Text>
               </View>
+              <View style={styles.detailRow}>
+                <Text style={styles.detailLabel}>Phone_No</Text>
+                <Text style={styles.detailValue}>
+                  {JSON.parse(user)?.phoneNo || "N/A"}
+                </Text>
+              </View>
+              
 
               <Pressable onPress={logout} style={styles.logoutButton}>
                 <Text style={styles.logoutText}>Log Out</Text>
@@ -295,12 +265,18 @@ const Profile = ({}) => {
                   onChangeText={setPartnerEmail}
                   keyboardType="email-address"
                 />
-                <Button title="Send Invitation" onPress={inviteToProm} />
-                <Button
-                  title="Cancel"
-                  onPress={() => setModalVisible(false)}
-                  color="red"
-                />
+                <TouchableOpacity
+              style={styles.inviteButton1}
+              onPress={inviteToProm}
+            >
+              <Text style={styles.inviteButtonText1}>Invite to Prom</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.inviteButton2}
+              onPress={() => setModalVisible(false)}
+            >
+              <Text style={styles.inviteButtonText2}>Cancel</Text>
+            </TouchableOpacity>
               </View>
             </Modal>
           </View>
@@ -351,6 +327,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     marginBottom: 10,
+    justifyContent: "center",
+    alignContent: "center",
   },
   requestItem: {
     marginVertical: 10,
@@ -367,6 +345,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 16,
     color: "gray",
+    marginBottom:10
   },
   badge: {
     position: "absolute",
@@ -385,7 +364,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   profileCard: {
-    backgroundColor: "rgba(255, 255, 255, 0.2)",
+    backgroundColor: "rgba(255, 255, 255, 0.5)",
     width: "80%",
     borderRadius: 20,
     padding: 20,
@@ -405,9 +384,9 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   name: {
-    fontSize: 17,
+    fontSize: 15,
     fontWeight: "bold",
-    color: "white",
+    color: "black",
     marginBottom: 12,
   },
   detailRow: {
@@ -419,11 +398,11 @@ const styles = StyleSheet.create({
   },
   detailLabel: {
     fontSize: 16,
-    color: "white",
+    color: "black",
   },
   detailValue: {
     fontSize: 16,
-    color: "white",
+    color: "black",
   },
   errormessage: {
     fontSize: 16,
@@ -432,7 +411,7 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    backgroundColor: "white",
+    backgroundColor: "rgba(255, 255, 255, 0.99)",
     marginTop: 200,
     borderRadius: 20,
     padding: 35,
@@ -442,19 +421,22 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+    paddingBottom: 20,
   },
   modalText: {
     marginBottom: 15,
     textAlign: "center",
-    fontSize: 18,
+    fontSize: 21,
+    fontWeight: "bold",
   },
   input: {
-    height: 40,
+    height: 45,
     borderColor: "gray",
     borderWidth: 1,
-    marginBottom: 15,
-    width: "80%",
+    marginBottom: 18,
+    width: "100%",
     paddingHorizontal: 10,
+    borderRadius:8
   },
   logoutButton: {
     backgroundColor: "#9999ff",
@@ -475,6 +457,32 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   inviteButtonText: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  inviteButton1: {
+    backgroundColor: "#ed0992",
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    borderRadius: 5,
+    alignItems: "center",
+    marginVertical:0,
+  },
+  inviteButtonText1: {
+    color: "white",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  inviteButton2: {
+    backgroundColor: "red",
+    paddingHorizontal: 15,
+    paddingVertical: 10,
+    borderRadius: 5,
+    alignItems: "center",
+    marginVertical: 10,
+  },
+  inviteButtonText2: {
     color: "white",
     fontSize: 18,
     fontWeight: "bold",

@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: "rgba(255, 255, 255, 0.45)",
     width: "100%",
-    backgroundColor: "rgba(255, 255, 255, 0.25)",
+    backgroundColor: "rgba(255, 255, 255, 0.32)",
   },
   matchImage: {
     width: 55,
@@ -129,8 +129,8 @@ const styles = StyleSheet.create({
   },
   matchName: {
     fontSize: 21,
-    color: "white",
-    fontWeight: "bold",
+    color: "black",
+    fontWeight: "semibold",
   },
 });
 

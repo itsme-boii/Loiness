@@ -237,7 +237,7 @@ const styles = StyleSheet.create({
   s2: {
     display: "flex",
     justifyContent: "center",
-    backgroundColor: "rgba(255, 255, 255, 0.25)",
+    backgroundColor: "rgba(255, 255, 255, 0.55)",
     width: "80%",
     height: "65%",
     borderRadius: 30,
