@@ -16,6 +16,11 @@ const ChatsScreen = ({ navigation }) => {
   const [matches, setMatches] = useState([]);
   const [token, setToken] = useState("");
 
+  const dummyImage =
+    "https://i.pinimg.com/474x/34/f1/e0/34f1e0e0276239adc9c75c83b0478256.jpg"; // Dummy image URL
+  const errorImage =
+    "https://i.pinimg.com/736x/8d/03/f2/8d03f2be7f0f9b111b2a94558a099ca8.jpg"; // Error image URL
+
   useEffect(() => {
     const getToken = async () => {
       try {
@@ -47,6 +52,8 @@ const ChatsScreen = ({ navigation }) => {
       );
       if (response.data && response.data.matches) {
         setMatches(response.data.matches);
+
+        console.log("matches are: ", response.data.matches);
       }
     } catch (error) {
       console.error("Error fetching matches:", error);
@@ -60,10 +67,13 @@ const ChatsScreen = ({ navigation }) => {
   return (
     <ImageBackground
       source={require("../../assets/Chatbg.png")}
-      style={[styles.backgroundImage, {
-        width: Dimensions.get("window").width,
-        height: Dimensions.get("window").height,
-      }]}
+      style={[
+        styles.backgroundImage,
+        {
+          width: Dimensions.get("window").width,
+          height: Dimensions.get("window").height,
+        },
+      ]}
       resizeMode="cover"
     >
       <View style={styles.container}>
@@ -80,7 +90,7 @@ const ChatsScreen = ({ navigation }) => {
                 style={styles.matchItem}
               >
                 <Image
-                  source={{ uri: item.profile_image }}
+                  source={{ uri: `https://gateway.pinata.cloud/ipfs/${item.profile_image}` }}
                   style={styles.matchImage}
                 />
                 <Text style={styles.matchName}>{item.name}</Text>

@@ -8,7 +8,7 @@ const Message = React.memo(({ message, isFromMe }) => {
   return (
       <View style={[styles.messageContainer, isFromMe ? styles.myMessage : styles.otherMessage]}>
           <Text style={styles.messageText}>{message.message}</Text>
-          <Text style={styles.timestamp}>{formattedTime}</Text>
+          {/* <Text style={styles.timestamp}>{formattedTime}</Text> */}
       </View>
   );
 });
@@ -16,7 +16,8 @@ const Message = React.memo(({ message, isFromMe }) => {
 const styles = StyleSheet.create({
     messageContainer: {
         maxWidth: '70%',
-        padding: 10,
+        paddingVertical: 10,
+        paddingHorizontal: 15,
         borderRadius: 10,
         marginVertical: 5,
     },

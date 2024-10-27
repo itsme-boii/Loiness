@@ -16,10 +16,10 @@ import {
 import React, { useCallback, useState, useEffect } from "react";
 import { useUserContext } from "../context/userContext";
 import axios from "axios";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useNavigation } from "@react-navigation/native";
+import { CommonActions } from "@react-navigation/native";
+// import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const Profile = ({}) => {
+const Profile = ({ navigation }) => {
   const [errormsg, setErrormsg] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [partnerName, setPartnerName] = useState("");
@@ -27,8 +27,7 @@ const Profile = ({}) => {
   const [promRequests, setPromRequests] = useState([]);
   const [showNotifications, setShowNotifications] = useState(false);
 
-  const navigation = useNavigation();
-  const { user, setUser, token, setToken } = useUserContext();
+  const { user, setUser, token, setToken, setIsLoggedIn } = useUserContext();
   const userId = JSON.parse(user)?.id;
 
   const fetchPromRequests = useCallback(async () => {
@@ -41,18 +40,18 @@ const Profile = ({}) => {
           },
         }
       );
-  
+
       console.log("The prom requests are: ", response.data.promRequests);
-  
+
       if (Array.isArray(response.data.promRequests)) {
-        setPromRequests(response.data.promRequests); 
+        setPromRequests(response.data.promRequests);
       } else {
         console.error("Expected an array of prom requests");
       }
     } catch (error) {
       console.error("Error fetching prom requests:", error);
     }
-  }, [userId, token]);  
+  }, [userId, token]);
 
   useEffect(() => {
     fetchPromRequests();
@@ -67,7 +66,8 @@ const Profile = ({}) => {
       await AsyncStorage.clear();
       setUser(null);
       setToken(null);
-      navigation.navigate("Login");
+      setIsLoggedIn(false);
+      console.log("trying to log out");
     } catch (error) {
       console.error("Error clearing AsyncStorage:", error);
       Alert.alert("Error", "Failed to log out");
@@ -198,7 +198,11 @@ const Profile = ({}) => {
             <View style={styles.profileCard}>
               {JSON.parse(user)?.profile_image ? (
                 <Image
-                  source={{ uri: JSON.parse(user)?.profile_image }}
+                  source={{
+                    uri: `https://gateway.pinata.cloud/ipfs/${
+                      JSON.parse(user)?.profile_image
+                    }`,
+                  }}
                   style={styles.profilePic}
                   onError={() => setErrormsg("Failed to load profile image")}
                 />
@@ -222,18 +226,17 @@ const Profile = ({}) => {
                 </Text>
               </View>
               <View style={styles.detailRow}>
-                <Text style={styles.detailLabel}>Roll_No</Text>
+                <Text style={styles.detailLabel}>Roll No</Text>
                 <Text style={styles.detailValue}>
                   {JSON.parse(user)?.rollNo || "N/A"}
                 </Text>
               </View>
               <View style={styles.detailRow}>
-                <Text style={styles.detailLabel}>Phone_No</Text>
+                <Text style={styles.detailLabel}>Phone No</Text>
                 <Text style={styles.detailValue}>
                   {JSON.parse(user)?.phoneNo || "N/A"}
                 </Text>
               </View>
-              
 
               <Pressable onPress={logout} style={styles.logoutButton}>
                 <Text style={styles.logoutText}>Log Out</Text>
@@ -269,17 +272,17 @@ const Profile = ({}) => {
                   keyboardType="email-address"
                 />
                 <TouchableOpacity
-              style={styles.inviteButton1}
-              onPress={inviteToProm}
-            >
-              <Text style={styles.inviteButtonText1}>Invite to Prom</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.inviteButton2}
-              onPress={() => setModalVisible(false)}
-            >
-              <Text style={styles.inviteButtonText2}>Cancel</Text>
-            </TouchableOpacity>
+                  style={styles.inviteButton1}
+                  onPress={inviteToProm}
+                >
+                  <Text style={styles.inviteButtonText1}>Invite to Prom</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.inviteButton2}
+                  onPress={() => setModalVisible(false)}
+                >
+                  <Text style={styles.inviteButtonText2}>Cancel</Text>
+                </TouchableOpacity>
               </View>
             </Modal>
           </View>
@@ -348,7 +351,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 16,
     color: "gray",
-    marginBottom:10
+    marginBottom: 10,
   },
   badge: {
     position: "absolute",
@@ -439,7 +442,7 @@ const styles = StyleSheet.create({
     marginBottom: 18,
     width: "100%",
     paddingHorizontal: 10,
-    borderRadius:8
+    borderRadius: 8,
   },
   logoutButton: {
     backgroundColor: "#9999ff",
@@ -470,7 +473,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     borderRadius: 5,
     alignItems: "center",
-    marginVertical:0,
+    marginVertical: 0,
   },
   inviteButtonText1: {
     color: "white",

@@ -7,6 +7,8 @@ import {
   FlatList,
   Image,
   Alert,
+  Dimensions,
+  ScrollView,
 } from "react-native";
 import styles from "../../assets/styles";
 import Icon from "./Icons.js";
@@ -102,12 +104,16 @@ const Matches = () => {
     } catch (error) {
       if (error.response) {
         console.error("Server response error:", error.response.data);
-        Alert.alert(
-          "Error",
-          error.response.data.message || "Failed to send prom night request"
-        );
+        // Alert.alert(
+        //   "Error",
+        //   error.response.data.message || "Failed to send prom night request"
+        // );
+        if(error.response.data.message)
+          Alert.alert("Oops!", error.response.data.message);
+        else
+          Alert.alert("Error", "Failed to send prom night request")
       } else if (error.request) {
-        console.error(
+        console.log(
           "Request was made but no response received:",
           error.request
         );
@@ -133,72 +139,82 @@ const Matches = () => {
   }, [matches]);
 
   return (
-    <ImageBackground
-      style={styles.bg}
-      source={require("../../assets/app main bg.png")}
-      resizeMode="cover"
-    >
-      <View style={styles.containerMatches}>
-        {matches.length === 0 ? (
-          <Text
-            style={{
-              color: "white",
-              fontSize: 18,
-              textAlign: "center",
-              marginTop: 19,
-            }}
-          >
-            Oops, no match for you
-          </Text>
-        ) : (
-          <FlatList
-            ref={flatListRef}
-            data={matches}
-            keyExtractor={(item) => item.id.toString()}
-            horizontal={true}
-            showsHorizontalScrollIndicator={false}
-            renderItem={({ item }) => (
-              <View style={{ width: 280, margin: 10, marginTop: 100 }}>
-                <TouchableOpacity>
-                  <Image
-                    source={{ uri: item.profile_image }}
-                    style={{ height: 340, borderRadius: 20 }}
-                  />
-                  <Text
-                    style={{
-                      textAlign: "center",
-                      marginTop: 10,
-                      fontSize: 21,
-                      fontWeight: "bold",
-                      color: "white",
-                    }}
-                  >
-                    {item.name}
-                  </Text>
-                  <TouchableOpacity
-                    style={{
-                      backgroundColor: "#ed0992",
-                      padding: 10,
-                      borderRadius: 10,
-                      width: "100%",
-                      marginTop: 10,
-                      alignSelf: "center",
-                    }}
-                    onPress={() => requestPromNight(item.id)}
-                  >
-                    <Text style={{ color: "white", textAlign: "center" }}>
-                      {requestStatus[item.id]
-                        ? "Request Already Sent"
-                        : "Request to Prom"}
+    <ScrollView>
+      <ImageBackground
+        style={styles.bg}
+        source={require("../../assets/app main bg.png")}
+        resizeMode="cover"
+      >
+        <View style={styles.containerMatches}>
+          {matches.length === 0 ? (
+            <Text
+              style={{
+                color: "white",
+                fontSize: 18,
+                textAlign: "center",
+                marginTop: 19,
+              }}
+            >
+              Oops, no match for you
+            </Text>
+          ) : (
+            <FlatList
+              ref={flatListRef}
+              data={matches}
+              keyExtractor={(item) => item.id.toString()}
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+              renderItem={({ item }) => (
+                <View
+                  style={{
+                    width: 280,
+                    margin: 10,
+                    marginTop: Dimensions.get("window").height * 0.25,
+                  }}
+                >
+                  <TouchableOpacity>
+                    <Image
+                      source={{
+                        uri: `https://gateway.pinata.cloud/ipfs/${item.profile_image}`,
+                      }}
+                      style={{ height: 340, borderRadius: 20 }}
+                    />
+                    <Text
+                      style={{
+                        textAlign: "center",
+                        marginTop: 10,
+                        fontSize: 21,
+                        fontWeight: "bold",
+                        color: "white",
+                      }}
+                    >
+                      {item.name}
                     </Text>
+                    <TouchableOpacity
+                      style={{
+                        backgroundColor: "#ed0992",
+                        padding: 10,
+                        borderRadius: 10,
+                        width: "100%",
+                        marginTop: 10,
+                        alignSelf: "center",
+                      }}
+                      onPress={() => requestPromNight(item.id)}
+                    >
+                      <Text style={{ color: "white", textAlign: "center" }}>
+                        {requestStatus[item.id]
+                          ? "Request Already Sent"
+                          : "Request to Prom"}
+                      </Text>
+                    </TouchableOpacity>
                   </TouchableOpacity>
-                </TouchableOpacity>
-              </View>
-            )}
-          />
-        )}
-      </View>
-    </ImageBackground>
+                </View>
+              )}
+            />
+          )}
+        </View>
+      </ImageBackground>
+    </ScrollView>
   );
 };
 

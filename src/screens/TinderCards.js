@@ -7,6 +7,7 @@ import {
   Alert,
   TouchableOpacity,
   Image,
+  Dimensions,
 } from "react-native";
 import TinderCard from "react-tinder-card";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -174,19 +175,14 @@ const Card = () => {
                   swipeThreshold={60}
                 >
                   <View style={styles.card}>
-                    <ImageBackground>
-                      <Image
-                        source={{ uri: character.profile_image }}
-                        style={styles.cardImage}
-                        resizeMode="cover"
-                      />
-                      <View style={styles.infoText}>
-                        <Text>
-                          {/* Additional info can be added here if needed */}
-                        </Text>
-                      </View>
-                      <Text style={styles.cardTitle}>{character.name}</Text>
-                    </ImageBackground>
+                    <Image
+                      source={{
+                        uri: `https://gateway.pinata.cloud/ipfs/${character.profile_image}`,
+                      }}
+                      style={styles.cardImage}
+                      resizeMode="cover"
+                    />
+                    <Text style={styles.cardTitle}>{character.name}</Text>
                   </View>
                 </TinderCard>
               ))}
@@ -247,28 +243,29 @@ const styles = {
     shadowColor: "yellow",
     shadowOpacity: 0.7,
     shadowRadius: 20,
-    borderRadius: 20,
+    borderRadius: 25,
     borderWidth: 2, // Add border width  // Set border color
-    padding: 5, // Add padding to create space for border
+    // padding: 5, // Add padding to create space for border
     resizeMode: "cover",
   },
   cardImage: {
-    width: "98%", // Make the image smaller than the card
-    height: "91%", // Adjust height as well
+    width: "100%", // Make the image smaller than the card
+    height: "100%", // Adjust height as well
     overflow: "hidden",
     borderRadius: 20, // Rounded corners for the image
     alignSelf: "center", // Center the image within the card
     justifyContent: "center",
-    MoveVertical: 20, // Center the content vertically// Center the image within the card
+    // MoveVertical: 20, // Center the content vertically// Center the image within the card
   },
 
   cardTitle: {
-    position: "absolute",
-    bottom: 10,
-    left: 20,
-    right: 20,
-    margin: 10,
+    // position: "absolute",
+    // bottom: 10,
+    // left: 20,
+    // right: 20,
+    // margin: 10,
     color: "white",
+    marginTop: -48,
     fontWeight: "bold",
     fontSize: 20,
     textShadowColor: "rgba(0, 0, 0, 0.1)",
@@ -277,23 +274,34 @@ const styles = {
     backgroundColor: "rgba(0, 0, 0, 0.3)",
     padding: 10,
     borderRadius: 5,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
     textAlign: "center",
   },
   buttons: {
     margin: 20,
     zIndex: -100,
   },
+  // infoText: {
+  //   marginTop: -50,
+  //   justifyContent: "center",
+  //   display: "flex",
+  //   zIndex: -100,
+  //   color: "white",
+  //   fontSize: 24,
+  //   fontWeight: "bold",
+  //   // wrap the text if it's too long
+  //   textAlign: "center",
+  //   width: "85%",
+  // },
+
   infoText: {
-    marginTop: -70,
-    justifyContent: "center",
-    display: "flex",
-    zIndex: -100,
-    color: "white",
-    fontSize: 24,
-    fontWeight: "bold",
-    // wrap the text if it's too long
+    fontSize: 18,
+    marginTop: 10,
+    maxWidth: Dimensions.get("window").width * 0.8,
     textAlign: "center",
-    width: "85%",
+    fontWeight: "semibold",
+    color: "white"
   },
   buttonsContainer: {
     flexDirection: "row",

@@ -1,27 +1,33 @@
 {
   "expo": {
-    "name": "TSF",
-    "slug": "TSF",
+    "name": "PromNight - SF",
+    "slug": "promnight-sf",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/icon.jpg",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/app loading.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#202020"
     },
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/icon.jpg",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.imaginedtime.promnightsf"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/icon.jpg"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "3d06e9ec-7837-44ab-8855-2387bff973e6"
+      }
     }
   }
 }

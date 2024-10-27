@@ -8,6 +8,8 @@ import {
   KeyboardAvoidingView,
   Platform,
   ImageBackground,
+  ActivityIndicator,
+  Dimensions,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import bg from "../../assets/Background1.png";
@@ -37,6 +39,8 @@ const Login = ({ navigation }) => {
 
   const { user, setUser, setToken } = useUserContext();
 
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     async function fetchData() {
       const token = await AsyncStorage.getItem("token");
@@ -46,6 +50,7 @@ const Login = ({ navigation }) => {
   }, []);
 
   const Sendtobackend = async () => {
+    setLoading(true);
     const token = await AsyncStorage.getItem("user");
     console.log("token is ", token);
     if (fdata.email == "" || fdata.password == "") {
@@ -123,26 +128,29 @@ const Login = ({ navigation }) => {
             if (user) console.log("navigating to home");
             navigation.navigate("Home");
           }
+
+          setLoading(false);
         })
         .catch((error) => {
           console.error("Error during fetch:", error);
           setErrormsg("Failed to login. Please try again later.");
+          setLoading(false);
         });
     }
   };
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : "height"}
-      style={{ flex: 1 }}
+    <ImageBackground
+      source={require("../../assets/app main bg.png")}
+      resizeMode="cover"
+      style={styles.container}
     >
-      <ScrollView
-        contentContainerStyle={{ flexGrow: 2 }}
-        keyboardShouldPersistTaps="handled"
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={{ flex: 1, flexDirection: "column", justifyContent: "center" }}
       >
-        <ImageBackground
-          source={require("../../assets/app main bg.png")}
-          resizeMode="cover"
-          style={styles.container}
+        <ScrollView
+          contentContainerStyle={{ flexGrow: 2 }}
+          // keyboardShouldPersistTaps="handled"
         >
           <View style={styles.container1}>
             <View style={styles.s2}>
@@ -171,11 +179,15 @@ const Login = ({ navigation }) => {
                     onPressIn={() => setErrormsg(null)}
                   />
                 </View>
-                <View style={styles.fp}>
+                {/* <View style={styles.fp}>
                   <Text style={link}>Forgot Password?</Text>
-                </View>
+                </View> */}
                 <Text style={button1} onPress={() => Sendtobackend()}>
-                  Login
+                  {loading ? (
+                    <ActivityIndicator size={18} color="white" />
+                  ) : (
+                    "Login"
+                  )}
                 </Text>
                 <View style={link2}>
                   <Text style={{ textAlign: "center" }}>
@@ -191,9 +203,9 @@ const Login = ({ navigation }) => {
               </View>
             </View>
           </View>
-        </ImageBackground>
-      </ScrollView>
-    </KeyboardAvoidingView>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </ImageBackground>
   );
 };
 
@@ -202,8 +214,9 @@ export default Login;
 const styles = StyleSheet.create({
   container: {
     width: "100%",
-    height: "100%",
+    height: Dimensions.get("window").height * 1.2,
     display: "flex",
+    flex: 1,
   },
   patternbg: {
     position: "absolute",
@@ -239,9 +252,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "rgba(255, 255, 255, 0.55)",
     width: "80%",
-    height: "65%",
     borderRadius: 30,
     padding: 20,
+    paddingVertical: 50,
     marginTop: 80,
     shadowColor: "black",
     shadowOffset: {
