@@ -74,7 +74,8 @@ const Matches = () => {
         `https://lol-2eal.onrender.com/promnight/check/${receiverId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      return response.data.promRequests.length > 0; // Return true if there's a pending request
+      console.log("Request status response:", response.data);
+      return response.data.promRequests.length > 0;
     } catch (error) {
       console.error("Error checking request status:", error);
       return false;

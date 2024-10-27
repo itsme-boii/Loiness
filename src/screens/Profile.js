@@ -41,14 +41,18 @@ const Profile = ({}) => {
           },
         }
       );
-
-      console.log("the promrequest ARE: ", response.data.promRequests);
-
-      setPromRequests(response.data.promRequests);
+  
+      console.log("The prom requests are: ", response.data.promRequests);
+  
+      if (Array.isArray(response.data.promRequests)) {
+        setPromRequests(response.data.promRequests); 
+      } else {
+        console.error("Expected an array of prom requests");
+      }
     } catch (error) {
       console.error("Error fetching prom requests:", error);
     }
-  }, [userId, token]);
+  }, [userId, token]);  
 
   useEffect(() => {
     fetchPromRequests();
@@ -191,7 +195,6 @@ const Profile = ({}) => {
           </Modal>
 
           <View style={styles.container1}>
-            {/* Rest of your existing profile card code */}
             <View style={styles.profileCard}>
               {JSON.parse(user)?.profile_image ? (
                 <Image
