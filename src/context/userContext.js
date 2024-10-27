@@ -22,7 +22,7 @@ const UserContextProvider = ({ children }) => {
 		AsyncStorage.getItem("token").then((data)=>{
 			console.log("token data from context");
 			if(data){
-				setToken(data);
+				setToken(JSON.parse(data));
 			}
 		})
 	}, [user,token]);

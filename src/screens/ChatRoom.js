@@ -68,7 +68,7 @@ const initializeSocket = (currentUserId) => {
     console.log("disconnectingggggggggggg")
       socketRef.current.disconnect();
   }
-  socketRef.current = io('http://10.105.51.160:3000', {
+  socketRef.current = io('https://lol-2eal.onrender.com', {
       transports: ['websocket'],
       query: { userId: currentUserId }
   });
@@ -107,7 +107,7 @@ const initializeSocket = (currentUserId) => {
 
 const fetchMessages = async (currentToken, currentUserId) => {
   try {
-      const response = await fetch(`http://10.105.51.160:3000/messages/${receiverId}`, {
+      const response = await fetch(`https://lol-2eal.onrender.com/messages/${receiverId}`, {
           headers: { Authorization: `Bearer ${currentToken}` },
       });
      
@@ -170,7 +170,7 @@ const sendMessage = async () => {
   }, 100);
 
   try {
-      const response = await fetch('http://10.105.51.160:3000/send-message', {
+      const response = await fetch('https://lol-2eal.onrender.com/send-message', {
           method: 'POST',
           headers: {
               Authorization: `Bearer ${token}`,
@@ -209,6 +209,7 @@ const sendMessage = async () => {
       keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 90}
     >
       <ImageBackground
+        source={require("../../assets/app chat.png")}
         style={styles.background}
         resizeMode="cover"
       >

@@ -24,14 +24,14 @@ module.exports = {
         fontWeight:700
     },
     input: {
-        backgroundColor: "#734A31",
+        backgroundColor: "#ffffff99",
         borderRadius: 20,
         paddingHorizontal: 10,
         paddingVertical: 10,
     },
     link: {
         color: '#734A31',
-        fontSize: 15,
+        fontSize: 18,
     },
     link2: {
         color: 'grey',
