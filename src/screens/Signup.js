@@ -47,7 +47,7 @@ const Signup = ({ navigation }) => {
     formData.append('otp', otpData.otp);
 
     try {
-      const response = await axios.post('http://10.105.51.160:3000/verify-otp', formData, {
+      const response = await axios.post('https://lol-2eal.onrender.com/verify-otp', formData, {
         headers: {
           'Content-Type': 'multipart/form-data', 
         },
@@ -245,7 +245,7 @@ const Signup = ({ navigation }) => {
       }    
       openOtpModal();
 
-      const response = await fetch("http://10.105.51.160:3000/registerapp", {
+      const response = await fetch("https://lol-2eal.onrender.com/registerapp", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
