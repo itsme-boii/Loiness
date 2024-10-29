@@ -57,7 +57,7 @@ const Login = ({ navigation }) => {
       setErrormsg("All fields are required");
       return;
     } else {
-      fetch("https://lol-2eal.onrender.com/login", {
+      fetch("http://10.105.51.160:3000/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -83,7 +83,7 @@ const Login = ({ navigation }) => {
               try {
                 console.log("entering not user");
                 const response = await axios.get(
-                  "https://lol-2eal.onrender.com/user",
+                  "http://10.105.51.160:3000/user",
                   {
                     headers: {
                       Authorization: `Bearer ${formattedToken}`,
@@ -103,7 +103,7 @@ const Login = ({ navigation }) => {
               }
             } else {
               const response = await axios.get(
-                "https://lol-2eal.onrender.com/user",
+                "http://10.105.51.160:3000/user",
                 {
                   headers: {
                     Authorization: `Bearer ${formattedToken}`,

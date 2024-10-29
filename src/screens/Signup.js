@@ -47,7 +47,7 @@ const Signup = ({ navigation }) => {
     formData.append('otp', otpData.otp);
 
     try {
-      const response = await axios.post('https://lol-2eal.onrender.com/verify-otp', formData, {
+      const response = await axios.post('https://https://db-4twk.onrender.com/verify-otp1', formData, {
         headers: {
           'Content-Type': 'multipart/form-data', 
         },
@@ -93,8 +93,8 @@ const Signup = ({ navigation }) => {
     rollNo: "",
     gender: "",
     bio: "",
-    profileImage1: "jhasdhjhajsda",
-    profileImage2: "asdjajsdjj",
+    profileImage1: "",
+    profileImage2: "sexOnBeach",
     year: "",
     hall: "",
     termsAccepted: false,
@@ -133,19 +133,10 @@ const Signup = ({ navigation }) => {
       .required("Required")
   });
 
-  useEffect(() => {
-    if (uploadedHash.length === 2) {
-      console.log("uploaded hasshes array are");
-      setFdata((prevData) => ({
-        ...prevData,
-        profileImage1: `https://aquamarine-immense-unicorn-398.mypinata.cloud/ipfs/${uploadedHash[0]}`,
-        profileImage2: `https://aquamarine-immense-unicorn-398.mypinata.cloud/ipfs/${uploadedHash[1]}`,
-      }));
-    }
-  }, [uploadedHash]);
   const [errormsg, setErrormsg] = useState(null);
 
   const pickImage = async (imageType) => {
+
 
     const { status } = await ImagePicker.
       requestMediaLibraryPermissionsAsync();
@@ -161,6 +152,7 @@ const Signup = ({ navigation }) => {
       console.log("hello");
 
       if (!result.canceled) {
+        setIsUploading(true);
         console.log("result ", result.assets[0].uri);
         console.log("result.assets[0]", result.assets[0]);
         const fileUri = result.assets[0].uri;
@@ -175,14 +167,17 @@ const Signup = ({ navigation }) => {
         formData.append('fileUri', fileUri);
         console.log("formdata is ", formData)
         try {
-          const response = await axios.post('http:///10.105.51.160:4000/upload', formData, {
+          const response = await axios.post('http://10.105.51.160:3000/upload', formData, {
             headers: {
               'Content-Type': 'multipart/form-data',
             },
           });
 
           console.log('File uploaded successfully:', response.data.url);
-          Alert.alert("Success", "Image uploaded successfully!");
+          setIsUploading(false);
+          const imageuri = response.data.url;
+          setFdata({ ...fdata, profileImage1: imageuri })
+          setIsUploaded(true)
 
         } catch (error) {
           alert('Error uploading image. Please try again.');
@@ -245,7 +240,7 @@ const Signup = ({ navigation }) => {
       }    
       openOtpModal();
 
-      const response = await fetch("https://lol-2eal.onrender.com/registerapp", {
+      const response = await fetch("https://db-4twk.onrender.com:3000/registerapp", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -501,32 +496,18 @@ useEffect(() => {
                     {touched.bio && errors.bio && <Text style={styles.error}>{errors.bio}</Text>}
 
                     {/* Upload Image Logic for both images */}
-                    <Text style={styles.label}>Profile Image 1</Text>
+                    <Text style={styles.label}>Profile Image</Text>
                     <TouchableOpacity
                       style={{ ...styles.button, ...input }}
                       onPress={() => pickImage("profileImage1", setFieldValue)}
                     >
                       <Text style={styles.buttonText}>
-                        {isUploading.profileImage1 ? "Uploading..." : "Upload Profile Image 1"}
+                        {isUploading.profile ? "Uploading..." : "Upload Profile Image "}
                       </Text>
                     </TouchableOpacity>
-                    {isUploaded.profileImage1 && <Text style={styles.success}>Image 1 uploaded!</Text>}
+                    {isUploaded.profile && <Text style={styles.success}>Image uploaded</Text>}
                     {touched.profileImage1 && errors.profileImage1 && (
                       <Text style={styles.error}>{errors.profileImage1}</Text>
-                    )}
-
-                    <Text style={styles.label}>Profile Image 2</Text>
-                    <TouchableOpacity
-                      style={{ ...styles.button, ...input }}
-                      onPress={() => pickImage("profileImage2", setFieldValue)}
-                    >
-                      <Text style={styles.buttonText}>
-                        {isUploading.profileImage2 ? "Uploading..." : "Upload Profile Image 2"}
-                      </Text>
-                    </TouchableOpacity>
-                    {isUploaded.profileImage2 && <Text style={styles.success}>Image 2 uploaded!</Text>}
-                    {touched.profileImage2 && errors.profileImage2 && (
-                      <Text style={styles.error}>{errors.profileImage2}</Text>
                     )}
 
                     {/* Terms and Conditions Modal */}
