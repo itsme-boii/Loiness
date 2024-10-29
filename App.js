@@ -24,20 +24,6 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 export default function App() {
-  // const [isLoggedIn, setIsLoggedIn] = useState(true);
-  // useEffect(() => {
-  //   const getToken = async () => {
-  //     try {
-  //       const token = await AsyncStorage.getItem("token");
-  //       if (!token) {
-  //         setIsLoggedIn(false);
-  //       }
-  //     } catch (error) {
-  //       console.log("Error Getting Token");
-  //     }
-  //   };
-  //   getToken();
-  // }, []);
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "white" }}>

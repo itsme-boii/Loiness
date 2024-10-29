@@ -1,4 +1,4 @@
-import {StyleSheet,Text,View,Image,TextInput,ScrollView,TouchableOpacity,SafeAreaView,Modal,Dimensions} from "react-native";
+import {StyleSheet,Text,View,Image,ImageBackground,TextInput,ScrollView,TouchableOpacity,SafeAreaView,Modal,Dimensions} from "react-native";
 import React, { useState, useEffect, useRef } from "react";
 import { button1 } from "../common/button";
 import * as Yup from "yup";
@@ -10,16 +10,20 @@ import * as ImagePicker from "expo-image-picker";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Formik } from "formik";
+import { useUserContext } from "../context/userContext";
 
 const { width, height } = Dimensions.get('window');
 
 const Signup = ({ navigation }) => {
   const recaptchaRef = useRef();
   const [selectGender, setSelectGender] = useState();
+  const [termsAccepted, setTermsAccepted] = useState(false);
 
   const [file, setFile] = useState(null);
+  const [isaccepted,setIsAccepted]=useState(false);
   const [error, setError] = useState();
   const [uploadedHash, setUploadedHash] = useState([""]);
+  const [allfeilds,setAllfeilds]= useState(0);
   const [otp, setOtp] = useState("");
   const [otpSent, setOtpSent] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -27,6 +31,9 @@ const Signup = ({ navigation }) => {
   const [otpData, setOtpData] = useState({ email: '', otp: '' });
   const openOtpModal = () => setOtpModalVisible(true);
   const closeOtpModal = () => setOtpModalVisible(false);
+  const [isFormComplete, setIsFormComplete] = useState(false);
+
+  const {setUser} = useUserContext();
 
 
   const handleOtpSubmit = async () => {
@@ -34,6 +41,7 @@ const Signup = ({ navigation }) => {
     const lowercasedEmail = email.toLowerCase();
     console.log("Email:", lowercasedEmail);
     console.log("OTP:", otpData.otp);
+    console.log("email is ",lowercasedEmail);
     const formData = new FormData();
     formData.append('email', lowercasedEmail); 
     formData.append('otp', otpData.otp);
@@ -47,6 +55,7 @@ const Signup = ({ navigation }) => {
       console.log("respone is ",response.message)
       if (response.status === 200) {
         console.log("OTP verified successfully:", response.data);
+        setUser(formData)
         navigation.navigate("Login")
       } else {
         console.log("Error verifying OTP:", response.data);
@@ -63,6 +72,7 @@ const Signup = ({ navigation }) => {
   const handleAcceptTerms = () => {
     setFdata((prev) => ({ ...prev, termsAccepted: true }));
     console.log("fdata is ", fdata)
+    setTermsAccepted(true);
     setModalVisible(false);
   };
   const [isUploading, setIsUploading] = useState({
@@ -83,11 +93,11 @@ const Signup = ({ navigation }) => {
     rollNo: "",
     gender: "",
     bio: "",
-    profileImage1: "",
-    profileImage2: "",
+    profileImage1: "jhasdhjhajsda",
+    profileImage2: "asdjajsdjj",
     year: "",
     hall: "",
-    termsAccepted: true,
+    termsAccepted: false,
   });
 
   const validationSchema = Yup.object({
@@ -119,11 +129,9 @@ const Signup = ({ navigation }) => {
     profileImage1: Yup.string().required("Required"),
     profileImage2: Yup.string().required("Required"),
     termsAccepted: Yup.boolean()
-      .oneOf([true], "You must accept the terms and conditions") // Validation for terms
+      .oneOf([true], "You must accept the terms and conditions")
       .required("Required")
   });
-
-
 
   useEffect(() => {
     if (uploadedHash.length === 2) {
@@ -155,16 +163,16 @@ const Signup = ({ navigation }) => {
       if (!result.canceled) {
         console.log("result ", result.assets[0].uri);
         console.log("result.assets[0]", result.assets[0]);
-        const fileUri = result.assets[0].uri; // Use the URI to send to backend
-        const fileName = result.assets[0].fileName || 'image.jpg'; // Generate a name if none is provided
+        const fileUri = result.assets[0].uri;
+        const fileName = result.assets[0].fileName || 'image.jpg';
         console.log("uri is", fileUri)
         const formData = new FormData();
         formData.append('file', {
           uri: fileUri,
           name: fileName,
-          type: 'image/jpeg', // Use appropriate MIME type
+          type: 'image/jpeg',
         });
-        formData.append('fileUri', fileUri); // Send fileUri as well
+        formData.append('fileUri', fileUri);
         console.log("formdata is ", formData)
         try {
           const response = await axios.post('http:///10.105.51.160:4000/upload', formData, {
@@ -228,9 +236,15 @@ const Signup = ({ navigation }) => {
 
   const Sendtobackend = async () => {
     try {
+      if (!isFormComplete){
+        alert("All Feilds Required");
+      }
+      if (!termsAccepted) {
+        alert("Please accept the terms and conditions.");
+        return;
+      }    
       openOtpModal();
-      // console.log("fdata to be sent:", JSON.stringify(fdata));
-      // console.log("when sending to bakcned fdata is", fdata)
+
       const response = await fetch("http://10.105.51.160:3000/registerapp", {
         method: "POST",
         headers: {
@@ -238,7 +252,6 @@ const Signup = ({ navigation }) => {
         },
         body: JSON.stringify(fdata),
       });
-      // console.log("response is ", response)
 
       const data = await response.json();
 
@@ -260,16 +273,41 @@ const Signup = ({ navigation }) => {
     }
   };
 
+
+useEffect(() => {
+  const checkFormCompletion = () => {
+    const isComplete = 
+      fdata.name &&
+      fdata.email &&
+      fdata.password &&
+      fdata.confirmPassword &&
+      fdata.rollNo &&
+      fdata.year &&
+      fdata.hall &&
+      fdata.PhoneNo &&
+      fdata.gender &&
+      fdata.bio &&
+      fdata.termsAccepted===true
+
+    setIsFormComplete(isComplete);
+  };
+
+  checkFormCompletion();
+}, [fdata]);
+
   const handleAgeChange = (selectedAge) => {
     console.log("selected age is ", selectedAge);
     setFdata({ ...fdata, year: selectedAge });
   };
 
   return (
+    <ImageBackground
+      source={bag}
+      resizeMode="cover"
+      style={styles.patternbg}
+    >
     <SafeAreaView>
       <View style={styles.container}>
-        <Image style={styles.patternbg} source={bag} />
-
 
         <View style={styles.container1}>
           <View style={styles.s1}></View>
@@ -288,7 +326,7 @@ const Signup = ({ navigation }) => {
                 validationSchema={validationSchema}
                 onSubmit={(values) => Sendtobackend(values)}
               >
-                {({ handleChange, handleBlur, handleSubmit, setFieldValue, values, errors, touched }) => (
+                {({ handleChange, handleBlur, handleSubmit, setFieldValue, values, errors, touched}) => (
                   <>
                     <Text style={styles.label}>Name</Text>
                     <TextInput
@@ -301,6 +339,7 @@ const Signup = ({ navigation }) => {
                           console.log("Updated fdata after name change:", updatedData); // Log here
                           return updatedData;
                         });
+                        
                       }}
                       onBlur={handleBlur("name")}
                       value={values.name}
@@ -312,9 +351,10 @@ const Signup = ({ navigation }) => {
                       style={input}
                       placeholder="Enter your Email"
                       onChangeText={(text) => {
+                        const email = text.toLowerCase();
                         setFieldValue("email", text);
                         setFdata((prev) => {
-                          const updatedData = { ...prev, email: text };
+                          const updatedData = { ...prev, email: email };
                           console.log("Updated fdata after email change:", updatedData); // Log here
                           return updatedData;
                         });
@@ -391,7 +431,7 @@ const Signup = ({ navigation }) => {
                         setFieldValue("hall", text);
                         setFdata((prev) => {
                           const updatedData = { ...prev, hall: text };
-                          console.log("Updated fdata after email change:", updatedData); // Log here
+                          console.log("Updated fdata after email change:", updatedData); 
                           return updatedData;
                         });
                       }}
@@ -510,11 +550,11 @@ const Signup = ({ navigation }) => {
                             <Text style={styles.modalText}>
                               I'm uploading my photo and making a profile with my consent, allowing Spring Fest to use it on the website for connection purposes.
                             </Text>
-                            <TouchableOpacity style={styles.acceptButton} onPress={handleAcceptTerms}>
+                            <TouchableOpacity style={styles.acceptButton1} onPress={handleAcceptTerms}>
                               <Text style={styles.buttonText}>Accept</Text>
 
                             </TouchableOpacity>
-                            <TouchableOpacity style={styles.closeButton} onPress={() => setModalVisible(false)}>
+                            <TouchableOpacity style={styles.closeButton1} onPress={() => setModalVisible(false)}>
                               <Text style={styles.buttonText}>Close</Text>
                             </TouchableOpacity>
                           </View>
@@ -532,11 +572,10 @@ const Signup = ({ navigation }) => {
 
             </View>
 
-            <TouchableOpacity onPress={Sendtobackend}>
-              <Text style={button1}>Otp</Text>
-            </TouchableOpacity>
+            <TouchableOpacity onPress={Sendtobackend} disabled={!isFormComplete}>
+  <Text style={[button1, !isFormComplete && { opacity: 0.5 }]}>Signup</Text>
+</TouchableOpacity>
 
-            {/* OTP Modal */}
             <Modal
               animationType="slide"
               transparent={true}
@@ -559,11 +598,9 @@ const Signup = ({ navigation }) => {
 
                   <View style={styles.buttonContainer}>
                     <TouchableOpacity style={styles.acceptButton} onPress={handleOtpSubmit}>
-                      <Text style={styles.buttonText}>Enter App</Text>
+                      <Text style={styles.buttonText}>Verify Otp</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.closeButton} onPress={closeOtpModal}>
-                      <Text style={styles.buttonText}>Cancel</Text>
-                    </TouchableOpacity>
+               
                   </View>
                 </View>
               </View>
@@ -572,6 +609,7 @@ const Signup = ({ navigation }) => {
         </View>
       </View>
     </SafeAreaView>
+    </ImageBackground>
   );
 };
 
@@ -616,8 +654,17 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     lineHeight: 22,
   },
+  error: {
+    color: 'blue',
+    fontSize: 14,
+    textAlign: 'center',
+    marginTop: 0,
+    paddingBottom:23
+    
+  },
+  
   acceptButton: {
-    backgroundColor: '#4CAF50',
+    backgroundColor: '#ed0992',
     paddingVertical: 12,
     paddingHorizontal: 30,
     borderRadius: 10,
@@ -625,25 +672,18 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 10,
   },
-  closeButton: {
-    backgroundColor: '#f44336',
-    paddingVertical: 12,
-    paddingHorizontal: 30,
-    borderRadius: 10,
-    width: '80%',
-    alignItems: 'center',
-  },
+
   buttonText: {
-    color: '#fff',
+    backgroundColor: '#ed0992',
     fontWeight: '600',
     fontSize: 16,
+
   },
   patternbg: {
-    position: "absolute",
-    top: 0,
     width: "100%",
-    height: "100%",
-    zIndex: -1,
+    height: Dimensions.get("window").height * 1.2,
+    display: "flex",
+    flex: 1,
   },
   checkbox: {
     marginLeft: 10,
@@ -698,7 +738,7 @@ const styles = StyleSheet.create({
     width: "100%",
     marginVertical: 90,
   },
-  acceptButton: {
+  acceptButton1: {
     backgroundColor: 'pink',
     borderRadius: 25, // This makes the button round
     paddingVertical: 10,
@@ -706,7 +746,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 10, // Space between buttons
   },
-  closeButton: {
+  closeButton1: {
     backgroundColor: 'lightgray',
     borderRadius: 25, // This also makes the button round
     paddingVertical: 10,
@@ -780,10 +820,11 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+
   },
   acceptButton: {
     flex: 1,
-    backgroundColor: 'blue', // Green color
+    backgroundColor: '#ed0992', // Green color
     paddingVertical: 15,
     borderRadius: 5,
     marginRight: 10, // Margin between buttons

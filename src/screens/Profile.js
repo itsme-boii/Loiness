@@ -13,6 +13,7 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import React, { useCallback, useState, useEffect } from "react";
 import { useUserContext } from "../context/userContext";
 import axios from "axios";
@@ -29,7 +30,9 @@ const Profile = ({ navigation }) => {
 
   const { user, setUser, token, setToken, setIsLoggedIn } = useUserContext();
   const userId = JSON.parse(user)?.id;
-
+useEffect(() => {
+  console.log("user data in profile page",user);
+},[])
   const fetchPromRequests = useCallback(async () => {
     try {
       const response = await axios.get(
@@ -85,7 +88,7 @@ const Profile = ({ navigation }) => {
       setModalVisible(false);
     } catch (error) {
       console.error("Error inviting to prom:", error.response.data.message);
-      Alert.alert("Error", "Failed to send invitation");
+      Alert.alert("OOPS", "You are already Matched with someone , you can't cheat");
     }
   };
 
@@ -234,7 +237,7 @@ const Profile = ({ navigation }) => {
               <View style={styles.detailRow}>
                 <Text style={styles.detailLabel}>Phone No</Text>
                 <Text style={styles.detailValue}>
-                  {JSON.parse(user)?.phoneNo || "N/A"}
+                  {JSON.parse(user)?.PhoneNo || "N/A"}
                 </Text>
               </View>
 
@@ -445,7 +448,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   logoutButton: {
-    backgroundColor: "#9999ff",
+    backgroundColor: "red",
     paddingHorizontal: 15,
     paddingVertical: 8,
     borderRadius: 5,

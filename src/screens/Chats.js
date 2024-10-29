@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import bag from "../../assets/Chatbg.png"
 
 const ChatsScreen = ({ navigation }) => {
   const [matches, setMatches] = useState([]);
@@ -66,7 +67,7 @@ const ChatsScreen = ({ navigation }) => {
 
   return (
     <ImageBackground
-      source={require("../../assets/Chatbg.png")}
+      source={bag}
       style={[
         styles.backgroundImage,
         {

@@ -13,7 +13,6 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import bg from "../../assets/Background1.png";
-// import logo from '../../assets/mainlogo.png'
 import { button1 } from "../common/button";
 import {
   errormessage,
@@ -58,7 +57,7 @@ const Login = ({ navigation }) => {
       setErrormsg("All fields are required");
       return;
     } else {
-      fetch("https://10.105.51.160:3000/login", {
+      fetch("http://10.105.51.160:3000/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -75,7 +74,7 @@ const Login = ({ navigation }) => {
             console.log("entering local storage");
             await AsyncStorage.setItem("token", JSON.stringify(data.token));
             const token = JSON.stringify(data.token);
-            setToken(data.token);
+            setToken(token);
 
             const formattedToken = token.replace(/^"|"$/g, "");
             alert("Logged in successfully");
@@ -84,7 +83,7 @@ const Login = ({ navigation }) => {
               try {
                 console.log("entering not user");
                 const response = await axios.get(
-                  "https://10.105.51.160:3000/user",
+                  "http://10.105.51.160:3000/user",
                   {
                     headers: {
                       Authorization: `Bearer ${formattedToken}`,
@@ -93,7 +92,6 @@ const Login = ({ navigation }) => {
                 );
                 const data = response.data.data;
                 console.log("data in !user is ", data);
-                // setUserResponse(data);
 
                 setUser(data);
                 await AsyncStorage.setItem("user", JSON.stringify(data));
@@ -105,7 +103,7 @@ const Login = ({ navigation }) => {
               }
             } else {
               const response = await axios.get(
-                "https://10.105.51.160:3000/user",
+                "http://10.105.51.160:3000/user",
                 {
                   headers: {
                     Authorization: `Bearer ${formattedToken}`,
@@ -151,7 +149,6 @@ const Login = ({ navigation }) => {
       >
         <ScrollView
           contentContainerStyle={{ flexGrow: 2 }}
-          // keyboardShouldPersistTaps="handled"
         >
           <View style={styles.container1}>
             <View style={styles.s2}>
