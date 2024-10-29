@@ -46,7 +46,7 @@ const ChatsScreen = ({ navigation }) => {
     try {
       const formattedToken = token.replace(/^"|"$/g, "");
       const response = await axios.get(
-        "https://lol-2eal.onrender.com/matches",
+        "https://db-4twk.onrender.com/matches",
         {
           headers: { Authorization: `Bearer ${formattedToken}` },
         }
@@ -91,7 +91,7 @@ const ChatsScreen = ({ navigation }) => {
                 style={styles.matchItem}
               >
                 <Image
-                  source={{ uri: `https://gateway.pinata.cloud/ipfs/${item.profile_image}` }}
+                  source={{ uri: item.profile_image }}
                   style={styles.matchImage}
                 />
                 <Text style={styles.matchName}>{item.name}</Text>

@@ -48,7 +48,7 @@ const Matches = () => {
     try {
       console.log("inside it");
       const response = await axios.get(
-        "https://lol-2eal.onrender.com/matches",
+        "https://db-4twk.onrender.com/matches",
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -73,7 +73,7 @@ const Matches = () => {
   const checkRequestStatus = async (receiverId) => {
     try {
       const response = await axios.get(
-        `https://lol-2eal.onrender.com/promnight/check/${receiverId}`,
+        `https://db-4twk.onrender.com/promnight/check/${receiverId}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
       console.log("Request status response:", response.data);
@@ -92,7 +92,7 @@ const Matches = () => {
 
     try {
       const response = await axios.post(
-        "https://lol-2eal.onrender.com/requestPromNight",
+        "https://db-4twk.onrender.com/requestPromNight",
         { receiverId },
         { headers: { Authorization: `Bearer ${token}` } }
       );

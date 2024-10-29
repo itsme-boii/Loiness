@@ -15,17 +15,9 @@ import { useUserContext } from "../context/userContext";
 const { width, height } = Dimensions.get('window');
 
 const Signup = ({ navigation }) => {
-  const recaptchaRef = useRef();
   const [selectGender, setSelectGender] = useState();
   const [termsAccepted, setTermsAccepted] = useState(false);
-
-  const [file, setFile] = useState(null);
-  const [isaccepted,setIsAccepted]=useState(false);
   const [error, setError] = useState();
-  const [uploadedHash, setUploadedHash] = useState([""]);
-  const [allfeilds,setAllfeilds]= useState(0);
-  const [otp, setOtp] = useState("");
-  const [otpSent, setOtpSent] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [otpModalVisible, setOtpModalVisible] = useState(false);
   const [otpData, setOtpData] = useState({ email: '', otp: '' });
@@ -47,7 +39,7 @@ const Signup = ({ navigation }) => {
     formData.append('otp', otpData.otp);
 
     try {
-      const response = await axios.post('https://https://db-4twk.onrender.com/verify-otp1', formData, {
+      const response = await axios.post('https://db-4twk.onrender.com/verify-otp1', formData, {
         headers: {
           'Content-Type': 'multipart/form-data', 
         },
@@ -167,7 +159,7 @@ const Signup = ({ navigation }) => {
         formData.append('fileUri', fileUri);
         console.log("formdata is ", formData)
         try {
-          const response = await axios.post('http://10.105.51.160:3000/upload', formData, {
+          const response = await axios.post('https://db-4twk.onrender.com/upload', formData, {
             headers: {
               'Content-Type': 'multipart/form-data',
             },
@@ -240,7 +232,7 @@ const Signup = ({ navigation }) => {
       }    
       openOtpModal();
 
-      const response = await fetch("https://db-4twk.onrender.com:3000/registerapp", {
+      const response = await fetch("https://db-4twk.onrender.com/registerapp", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

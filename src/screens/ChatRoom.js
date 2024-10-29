@@ -4,6 +4,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import io from 'socket.io-client';
 import Message from './Message';
 import EmojiPicker from './EmojiPicker';
+import bag from "../../assets/app chat.png";
 import { useUserContext } from '../context/userContext';
 
 const ChatRoom = ({ route }) => {
@@ -68,7 +69,7 @@ const initializeSocket = (currentUserId) => {
     console.log("disconnectingggggggggggg")
       socketRef.current.disconnect();
   }
-  socketRef.current = io('https://lol-2eal.onrender.com', {
+  socketRef.current = io('https://db-4twk.onrender.com', {
       transports: ['websocket'],
       query: { userId: currentUserId }
   });
@@ -107,7 +108,7 @@ const initializeSocket = (currentUserId) => {
 
 const fetchMessages = async (currentToken, currentUserId) => {
   try {
-      const response = await fetch(`https://lol-2eal.onrender.com/messages/${receiverId}`, {
+      const response = await fetch(`https://db-4twk.onrender.com/messages/${receiverId}`, {
           headers: { Authorization: `Bearer ${currentToken}` },
       });
      
@@ -141,7 +142,6 @@ const sendMessage = async () => {
 
   const messageId = Date.now().toString();
   const timestamp = new Date().toISOString();
-  console.log("timestam from pratyush ki gand is",timestamp)
 
   const newMessageData = {
       id: messageId,
@@ -170,7 +170,7 @@ const sendMessage = async () => {
   }, 100);
 
   try {
-      const response = await fetch('https://lol-2eal.onrender.com/send-message', {
+      const response = await fetch('https://db-4twk.onrender.com/send-message', {
           method: 'POST',
           headers: {
               Authorization: `Bearer ${token}`,
@@ -209,7 +209,7 @@ const sendMessage = async () => {
       keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 90}
     >
       <ImageBackground
-        source={require("../../assets/app chat.png")}
+        source={bag}
         style={styles.background}
         resizeMode="cover"
       >

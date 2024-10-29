@@ -36,7 +36,7 @@ useEffect(() => {
   const fetchPromRequests = useCallback(async () => {
     try {
       const response = await axios.get(
-        `https://lol-2eal.onrender.com/promnight/check/${userId}`,
+        `https://db-4twk.onrender.com/promnight/check/${userId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -80,7 +80,7 @@ useEffect(() => {
   const inviteToProm = async () => {
     try {
       const response = await axios.post(
-        "https://lol-2eal.onrender.com/invitePromPartner",
+        "https://db-4twk.onrender.com/invitePromPartner",
         { partnerName, partnerEmail },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -95,7 +95,7 @@ useEffect(() => {
   const acceptRequest = async (requestId) => {
     try {
       const response = await axios.post(
-        "https://lol-2eal.onrender.com/acceptPromNight",
+        "https://db-4twk.onrender.com/acceptPromNight",
         { requestId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -110,7 +110,7 @@ useEffect(() => {
   const rejectRequest = async (requestId) => {
     try {
       const response = await axios.post(
-        "https://lol-2eal.onrender.com/cancelPromNight",
+        "https://db-4twk.onrender.com/cancelPromNight",
         { requestId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -202,9 +202,7 @@ useEffect(() => {
               {JSON.parse(user)?.profile_image ? (
                 <Image
                   source={{
-                    uri: `https://gateway.pinata.cloud/ipfs/${
-                      JSON.parse(user)?.profile_image
-                    }`,
+                    uri: JSON.parse(user)?.profile_image
                   }}
                   style={styles.profilePic}
                   onError={() => setErrormsg("Failed to load profile image")}
@@ -237,7 +235,7 @@ useEffect(() => {
               <View style={styles.detailRow}>
                 <Text style={styles.detailLabel}>Phone No</Text>
                 <Text style={styles.detailValue}>
-                  {JSON.parse(user)?.PhoneNo || "N/A"}
+                  {JSON.parse(user)?.phoneNo || "N/A"}
                 </Text>
               </View>
 

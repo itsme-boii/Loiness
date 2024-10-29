@@ -57,7 +57,7 @@ const Login = ({ navigation }) => {
       setErrormsg("All fields are required");
       return;
     } else {
-      fetch("http://10.105.51.160:3000/login", {
+      fetch("https://db-4twk.onrender.com/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -83,7 +83,7 @@ const Login = ({ navigation }) => {
               try {
                 console.log("entering not user");
                 const response = await axios.get(
-                  "http://10.105.51.160:3000/user",
+                  "https://db-4twk.onrender.com/user",
                   {
                     headers: {
                       Authorization: `Bearer ${formattedToken}`,
@@ -93,7 +93,7 @@ const Login = ({ navigation }) => {
                 const data = response.data.data;
                 console.log("data in !user is ", data);
 
-                setUser(data);
+                setUser(JSON.stringify(data));
                 await AsyncStorage.setItem("user", JSON.stringify(data));
 
                 console.log("done");
@@ -103,7 +103,7 @@ const Login = ({ navigation }) => {
               }
             } else {
               const response = await axios.get(
-                "http://10.105.51.160:3000/user",
+                "https://db-4twk.onrender.com/user",
                 {
                   headers: {
                     Authorization: `Bearer ${formattedToken}`,
@@ -113,7 +113,7 @@ const Login = ({ navigation }) => {
               console.log("response  from login is", response.data.data);
               const data = response.data.data;
               console.log("data is ", data);
-              const email = JSON.parse(user).email;
+              const email = user?.email;
               console.log("user from api", data.email);
               if (email !== data.email) {
                 console.log("yes we are fixing you ass");

@@ -13,8 +13,7 @@ import TinderCard from "react-tinder-card";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { FontAwesome } from "@expo/vector-icons";
-import bg from "../../assets/Background1.png";
-import { MoveVertical } from "lucide-react";
+
 
 const Card = () => {
   const [characters, setCharacters] = useState([]);
@@ -50,7 +49,7 @@ const Card = () => {
       console.log("token is ", token);
 
       const response = await axios.get(
-        `https://lol-2eal.onrender.com/getUsers`,
+        `https://db-4twk.onrender.com/getUsers`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -120,7 +119,7 @@ const Card = () => {
   const likeUser = async (likedUserId) => {
     try {
       const response = await axios.post(
-        "https://lol-2eal.onrender.com/like",
+        "https://db-4twk.onrender.com/like",
         { likedUserId },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -138,7 +137,7 @@ const Card = () => {
   const dislikeUser = async (dislikedUserId) => {
     try {
       await axios.post(
-        "https://lol-2eal.onrender.com/dislike",
+        "https://db-4twk.onrender.com/dislike",
         { dislikedUserId },
         {
           headers: { Authorization: `Bearer ${token}` },
@@ -250,7 +249,7 @@ const styles = {
   },
   cardImage: {
     width: "100%", // Make the image smaller than the card
-    height: "100%", // Adjust height as well
+    height: "97%", // Adjust height as well
     overflow: "hidden",
     borderRadius: 20, // Rounded corners for the image
     alignSelf: "center", // Center the image within the card

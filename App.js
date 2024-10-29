@@ -1,17 +1,11 @@
-import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, SafeAreaView } from "react-native";
 import Login from "./src/screens/Login";
 import Signup from "./src/screens/Signup";
 import Chats from "./src/screens/Chats";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Homepage from "./src/screens/Homepage";
-import Verification from "./src/screens/Verification";
 import Card from "./src/screens/TinderCards";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { useEffect, useState } from "react";
-import Display from "./src/screens/card";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import MyTabBar from "./src/screens/Navbar";
 import Profile from "./src/screens/Profile";
