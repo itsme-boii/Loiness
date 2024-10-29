@@ -25,6 +25,7 @@ import {
   link,
   link2,
 } from "../common/formcss";
+import bag from "../../assets/app main bg.png";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { useUserContext } from "../context/userContext";
@@ -57,7 +58,7 @@ const Login = ({ navigation }) => {
       setErrormsg("All fields are required");
       return;
     } else {
-      fetch("https://lol-2eal.onrender.com/login", {
+      fetch("https://10.105.51.160:3000/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -83,7 +84,7 @@ const Login = ({ navigation }) => {
               try {
                 console.log("entering not user");
                 const response = await axios.get(
-                  "https://lol-2eal.onrender.com/user",
+                  "https://10.105.51.160:3000/user",
                   {
                     headers: {
                       Authorization: `Bearer ${formattedToken}`,
@@ -104,7 +105,7 @@ const Login = ({ navigation }) => {
               }
             } else {
               const response = await axios.get(
-                "https://lol-2eal.onrender.com/user",
+                "https://10.105.51.160:3000/user",
                 {
                   headers: {
                     Authorization: `Bearer ${formattedToken}`,
@@ -140,7 +141,7 @@ const Login = ({ navigation }) => {
   };
   return (
     <ImageBackground
-      source={require("../../assets/app main bg.png")}
+      source={bag}
       resizeMode="cover"
       style={styles.container}
     >
@@ -231,7 +232,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: "100%",
     width: "100%",
-    // backgroundColor:"grey"
   },
   s1: {
     display: "flex",

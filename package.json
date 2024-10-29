@@ -9,6 +9,9 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@azure/core-auth": "^1.9.0",
+    "@azure/core-rest-pipeline": "^1.17.0",
+    "@azure/storage-blob": "^12.25.0",
     "@expo/vector-icons": "^14.0.4",
     "@react-native-async-storage/async-storage": "^1.23.1",
     "@react-native-picker/picker": "^2.7.5",
@@ -17,20 +20,27 @@
     "@react-navigation/native-stack": "^6.11.0",
     "@react-spring/native": "^9.5.5",
     "axios": "^1.7.7",
+    "browser-image-compression": "^2.0.2",
     "emoji-mart-native": "^0.6.5-beta",
     "emoji-picker-react": "^3.4.8",
     "expo": "~51.0.28",
     "expo-blur": "^13.0.2",
+    "expo-file-system": "^17.0.1",
     "expo-image-picker": "^15.0.7",
     "expo-status-bar": "~1.12.1",
+    "formik": "^2.4.6",
     "lucide-react": "^0.453.0",
     "react": "18.2.0",
     "react-native": "0.74.5",
     "react-native-gesture-handler": "^2.16.1",
     "react-native-reanimated": "^3.10.1",
     "react-native-vector-icons": "^10.2.0",
+    "react-native-webview": "^13.12.3",
     "react-tinder-card": "^1.6.4",
-    "socket.io-client": "^4.4.0"
+    "rn-fetch-blob": "^0.12.0",
+    "socket.io-client": "^4.4.0",
+    "uuid": "^11.0.2",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

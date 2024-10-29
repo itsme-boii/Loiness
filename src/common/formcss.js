@@ -34,7 +34,7 @@ module.exports = {
         fontSize: 18,
     },
     link2: {
-        color: 'grey',
+        color: 'black',
         fontSize: 15,
         textAlign: 'center',
         marginVertical: 10,
